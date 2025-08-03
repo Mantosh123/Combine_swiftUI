@@ -6,16 +6,32 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    
+    @StateObject private var viewModel = NetworkViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        
+        NavigationView {
+            List(viewModel.posts) { post in
+                Text(post.title)
+            }
+            .navigationTitle("Posts")
+            .onAppear {
+                viewModel.postAPICall()
+            }
+            .overlay {
+                Group {
+                    if let error = viewModel.errorMessage {
+                        Text("Error \(error)")
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                }
+            }
         }
-        .padding()
     }
 }
 

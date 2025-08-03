@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @main
 struct Combine2_networkCallApp: App {
     var body: some Scene {
